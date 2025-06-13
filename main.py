@@ -3,6 +3,36 @@ print("Welcome To Tic Tac Toe")
 
 board = [['.' for _ in range(3)] for _ in range(3)]
 
+def check_three_in_a_row(board):
+    rows = len(board)
+    cols = len(board[0])
+
+    # Check horizontal
+    for row in board:
+        for col in range(cols - 2):
+            if row[col] == row[col + 1] == row[col + 2] != '.':
+                return True
+
+    # Check vertical
+    for col in range(cols):
+        for row in range(rows - 2):
+            if board[row][col] == board[row + 1][col] == board[row + 2][col] != '.':
+                return True
+
+    # Check diagonal (top-left to bottom-right)
+    for row in range(rows - 2):
+        for col in range(cols - 2):
+            if board[row][col] == board[row + 1][col + 1] == board[row + 2][col + 2] != '.':
+                return True
+
+    # Check diagonal (top-right to bottom-left)
+    for row in range(rows - 2):
+        for col in range(2, cols):
+            if board[row][col] == board[row + 1][col - 1] == board[row + 2][col - 2] != '.':
+                return True
+
+    return False
+
 
 #I am defining a function and printing the board so it does not show up in a matrix it shows up clean. and the second print is for spacing
 def print_board():
@@ -40,11 +70,13 @@ while filled_spots < total_spots:
         # Update matrix and increment filled spots
         board[row_num][col_num] = letter.upper()
         filled_spots += 1
-    
+
     except ValueError:
         print("Please enter valid numbers for row and column.\n")
 
-print("Winner Shown Below! Gameover:")
-print_board()
+    if check_three_in_a_row(board):
+        print_board()
+        print("We have a winner!")
+        break
 
 
